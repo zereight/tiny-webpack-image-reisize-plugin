@@ -1,10 +1,3 @@
-// const imagemin = require("imagemin");
-// const imageminMozjpeg = require("imagemin-mozjpeg");
-// const imageminPngquant = require("imagemin-pngquant");
-// const imageminGiflossy = require("imagemin-giflossy");
-// const imageminSvgo = require("imagemin-svgo");
-// const imageminWebp = require("imagemin-webp");
-// const imageminOptipng = require("imagemin-optipng");
 const sharp = require("sharp");
 
 const PLUGIN_NAME = "WebpConvertPlugin";
@@ -35,42 +28,6 @@ class WebpConvertPlugin {
               if (!IMAGES_POSTFIX.test(assetFileName)) return;
 
               const assetFile = compilation.assets[assetFileName];
-
-              // const processImageminAsync = imagemin
-              //   .buffer(assetFile.source(), {
-              //     plugins: [
-              //       imageminOptipng({ interlaced: true, optimizationLevel: 7 }),
-              //       imageminMozjpeg({ quality: 80 }),
-              //       imageminPngquant(),
-              //       imageminGiflossy(),
-              //       imageminSvgo(),
-              //       imageminWebp({
-              //         quality: 75,
-              //         // resize: {
-              //         //   width: this.width,
-              //         //   height: this.height,
-              //         // },
-              //       }),
-              //     ],
-              //   })
-              //   .then((processedBuffer) => {
-              //     const size =
-              //       (assetFile.size() - processedBuffer.length) / 1024;
-
-              //     delete compilation.assets[assetFileName];
-
-              //     compilation.emitAsset(assetFileName, {
-              //       source: () => processedBuffer,
-              //       size: () => processedBuffer.length,
-              //     });
-
-              //     return size;
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //   });
-
-              // return processImageminAsync;
 
               const processedSharpToAssetFileAsync = sharp(assetFile.source())
                 .resize(this.width, this.height)

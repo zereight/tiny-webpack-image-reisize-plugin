@@ -1,8 +1,6 @@
 # webpack-webp-convert-plugin
 
-이미지들을 webp로 변환해주는 webapck plugin
-
-누구나 따라할 수 있게 쉽게 구현
+Resize your images using webpack plugin!
 
 ## Support
 
@@ -10,11 +8,11 @@ Only webpack 5
 
 ## Before
 
-<img width="738" alt="이미지사이즈 전" src="https://user-images.githubusercontent.com/42544600/131214048-99cc4907-7654-4341-83ed-6af12185cf3c.png">
+<img width="532" alt="이미지 리사이즈 전" src="https://user-images.githubusercontent.com/42544600/131217247-ff6c2719-65a7-4d47-8221-21300ac4fe66.png">
 
 ## After
 
-<img width="738" alt="스크린샷 2021-08-28 오후 6 51 02" src="https://user-images.githubusercontent.com/42544600/131214045-5eebdec3-90ed-4e37-912f-32ada84592e3.png">
+<img width="581" alt="이미지 리사이즈 후" src="https://user-images.githubusercontent.com/42544600/131217340-7dc0d07e-a61a-49d8-b728-311c1c40e366.png">
 
 ## Usage
 
@@ -31,7 +29,10 @@ yarn add -D webpack-image-resize-plugin
 const WebpackImageResizePlugin = require("webpack-image-resize-plugin");
 
 ...
-plugins: [new WebpackImageResizePlugin(),]
+plugins: [new WebpackImageResizePlugin({
+    width: 1920,
+    height: 1080
+})]
 ...
 
 ```
