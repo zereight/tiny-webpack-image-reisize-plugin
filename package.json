@@ -1,5 +1,6 @@
 {
-  "version": "0.0.1",
+  "name": "webpack-webp-convert-plugin",
+  "version": "0.0.2",
   "main": "src/index.js",
   "description": "Use webpack plugin to convert image to .webp for performance.",
   "keywords": [
