@@ -2,7 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const WebpConvertPlugin = require("../src");
+const ImageResizePlugin = require("../src/index.js");
+const { webpack } = require("webpack");
 
 module.exports = {
   entry: "./src/index.js",
@@ -26,9 +27,16 @@ module.exports = {
       patterns: [{ from: "./public", to: "./public" }],
     }),
     new Dotenv(),
-    new WebpConvertPlugin({
-      width: 200,
-      height: 200,
+    new ImageResizePlugin({
+      gifInfo: {
+        width: 100,
+        height: 100,
+      },
+      imgInfo: {
+        width: 1920,
+        height: 1080,
+        quality: 100,
+      },
     }),
   ],
   module: {
@@ -45,7 +53,7 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: "file-loader",
         options: {
           name: "static/[name].[ext]",

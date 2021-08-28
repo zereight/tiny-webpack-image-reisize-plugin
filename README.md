@@ -29,10 +29,19 @@ yarn add -D webpack-image-resize-plugin
 const WebpackImageResizePlugin = require("webpack-image-resize-plugin");
 
 ...
-plugins: [new WebpackImageResizePlugin({
-    width: 1920,
-    height: 1080
-})]
+plugins: [
+    new ImageResizePlugin({
+      gifInfo: {
+        width: 100,
+        height: 100,
+      },
+      imgInfo: {
+        width: 1920,
+        height: 1080,
+        quality: 100,
+      },
+    }),
+]
 ...
 
 ```

@@ -1,16 +1,15 @@
-const sharp = require("sharp");
+const imagemin = require("imagemin");
+const imageminWebp = require("imagemin-webp");
 
-const PLUGIN_NAME = "WebpConvertPlugin";
-const IMAGES_POSTFIX = /\.(jpe?g|png|gif|webp)/;
+const PLUGIN_NAME = "ImageResizePlugin";
+const IMAGES_POSTFIX = /\.(jpe?g|png|webp)/;
+const GIF_POSTFIX = /\.(gif)/;
 
-class WebpConvertPlugin {
-  constructor({ width, height }) {
-    if (typeof width !== "number" || typeof height !== "number") {
-      throw new Error("width, height must be number.");
-    }
-
-    this.width = width;
-    this.height = height;
+class ImageResizePlugin {
+  constructor({ outputPath = "dist", gifInfo, imgInfo }) {
+    this.gifInfo = gifInfo || { width: 1920, height: 1080 };
+    this.imgInfo = imgInfo || { width: 1920, height: 1080, quality: 75 };
+    this.outputPath = outputPath;
   }
 
   apply(compiler) {
@@ -23,37 +22,53 @@ class WebpConvertPlugin {
         (assets, callback) => {
           const assetFileNames = Object.keys(assets);
 
-          const processedSharpToAssetFileAsyncs = assetFileNames.map(
+          const processImageminForAssetFileAsyncs = assetFileNames.map(
             (assetFileName) => {
-              if (!IMAGES_POSTFIX.test(assetFileName)) return;
+              if (GIF_POSTFIX.test(assetFileName)) {
+                console.info("This Plugin is not support [gif] format.");
+                console.info(
+                  `Please run this command => gifsicle --resize ${this.gifInfo.width}x${this.gifInfo.height} ./${this.outputPath}/${assetFileName} -o ./${this.outputPath}/${assetFileName}`
+                );
+              } else if (IMAGES_POSTFIX.test(assetFileName)) {
+                const removedPostFixName = assetFileName
+                  .split(".")
+                  .slice(0, -1)
+                  .join(".");
+                const convertedFileName = `${removedPostFixName}.webp`;
 
-              const assetFile = compilation.assets[assetFileName];
+                const assetFile = compilation.assets[assetFileName];
 
-              const processedSharpToAssetFileAsync = sharp(assetFile.source())
-                .resize(this.width, this.height)
+                const processImageminAsync = imagemin
+                  .buffer(assetFile.source(), {
+                    plugins: [
+                      imageminWebp({
+                        quality: this.imgInfo.quality,
+                        size: 200,
+                        resize: {
+                          width: this.imgInfo.width,
+                          height: this.imgInfo.height,
+                        },
+                      }),
+                    ],
+                  })
+                  .then((processedBuffer) => {
+                    delete compilation.assets[assetFileName];
 
-                .toBuffer()
-                .then((buffer) => {
-                  const size = (assetFile.size() - buffer.length) / 1024;
-
-                  delete compilation.assets[assetFileName];
-
-                  compilation.emitAsset(assetFileName, {
-                    source: () => buffer,
-                    size: () => buffer.length,
+                    compilation.emitAsset(convertedFileName, {
+                      source: () => processedBuffer,
+                      size: () => processedBuffer.length,
+                    });
+                  })
+                  .catch((error) => {
+                    console.error(error);
                   });
 
-                  return size;
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-
-              return processedSharpToAssetFileAsync;
+                return processImageminAsync;
+              }
             }
           );
 
-          Promise.allSettled(processedSharpToAssetFileAsyncs).then(() => {
+          Promise.allSettled(processImageminForAssetFileAsyncs).then(() => {
             callback();
           });
         }
@@ -62,4 +77,4 @@ class WebpConvertPlugin {
   }
 }
 
-module.exports = WebpConvertPlugin;
+module.exports = ImageResizePlugin;

@@ -1,6 +1,6 @@
 {
   "name": "webpack-image-resize-plugin",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "main": "src/index.js",
   "description": "Webpack plugin to resize image assets",
   "keywords": [
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/zereight/webpack-image-resize-plugin",
   "dependencies": {
-    "sharp": "^0.29.0"
+    "imagemin": "^7.0.1",
+    "imagemin-webp": "^6.0.0"
   },
   "devDependencies": {
     "prettier": "^2.3.2"
