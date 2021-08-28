@@ -26,7 +26,10 @@ module.exports = {
       patterns: [{ from: "./public", to: "./public" }],
     }),
     new Dotenv(),
-    new WebpConvertPlugin(),
+    new WebpConvertPlugin({
+      width: 200,
+      height: 200,
+    }),
   ],
   module: {
     rules: [
