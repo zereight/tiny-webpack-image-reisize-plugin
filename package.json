@@ -1,9 +1,33 @@
 {
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "description": "Use webpack plugin to convert image to .webp for performance.",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "webp",
+    "convert"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zereight/webpack-webp-convert-plugin.git"
+  },
+  "author": {
+    "name": "zereight",
+    "email": "fullstackmachinelearning@gmail.com",
+    "url": "zereight.tistory.com"
+  },
+  "homepage": "https://github.com/zereight/webpack-webp-convert-plugin",
   "dependencies": {
     "imagemin": "^7.0.1",
     "imagemin-webp": "^6.0.0"
   },
   "devDependencies": {
     "prettier": "^2.3.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/zereight/webpack-webp-convert-plugin",
+    "email": "fullstackmachinelearning@gmail.com"
+  },
+  "license": "MIT"
 }
