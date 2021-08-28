@@ -19,13 +19,19 @@ Only webpack 5
 ## Usage
 
 ```sh
-yarn add -D webpack-webp-convert-plugin
+npm i webpack-image-resize-plugin --save-dev
+
+or
+
+yarn add -D webpack-image-resize-plugin
 ```
 
 ```sh
 // webpack.config.js
-const WebpConvertPlugin = require("webpack-webp-convert-plugin");
+const WebpackImageResizePlugin = require("webpack-image-resize-plugin");
+
 ...
-plugins: [new WebpConvertPlugin(),]
+plugins: [new WebpackImageResizePlugin(),]
 ...
+
 ```
