@@ -1,7 +1,9 @@
 {
   "dependencies": {
-    "imagemin": "^8.0.1",
-    "imagemin-gif2webp": "^3.0.0",
+    "imagemin": "^7.0.1",
     "imagemin-webp": "^6.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2"
   }
 }
