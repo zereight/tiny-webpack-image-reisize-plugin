@@ -31,11 +31,13 @@ module.exports = {
       gifInfo: {
         width: 100,
         height: 100,
+        toWebp: true,
       },
       imgInfo: {
         width: 1920,
         height: 1080,
         quality: 100,
+        toWebp: true,
       },
     }),
   ],
@@ -53,10 +55,10 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(png|jpg|jpg|gif|webp)$/i,
         loader: "file-loader",
         options: {
-          name: "static/[name].[ext]",
+          name: "static/[name].webp",
         },
       },
     ],

@@ -34,14 +34,35 @@ plugins: [
       gifInfo: {
         width: 100,
         height: 100,
+        toWebp: true
       },
       imgInfo: {
         width: 1920,
         height: 1080,
         quality: 100,
+        toWebp: true
       },
     }),
 ]
 ...
+```
 
+### When you use `toWebp` options.
+
+Please use file-loader like this. (webpack.config.js)
+
+```js
+// webpack.config.js
+
+module: {
+    rules: [
+      {
+        test: /\.(png|jpg|jpg|gif|webp)$/i,
+        loader: "file-loader",
+        options: {
+          name: "static/[name].webp",
+        },
+      },
+    ],
+  },
 ```

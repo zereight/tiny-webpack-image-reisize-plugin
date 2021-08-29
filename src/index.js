@@ -7,8 +7,13 @@ const GIF_POSTFIX = /\.(gif)/;
 
 class ImageResizePlugin {
   constructor({ outputPath = "dist", gifInfo, imgInfo }) {
-    this.gifInfo = gifInfo || { scale: 1 };
-    this.imgInfo = imgInfo || { width: 1920, height: 1080, quality: 75 };
+    this.gifInfo = gifInfo || { scale: 1, toWebp: true };
+    this.imgInfo = imgInfo || {
+      width: 1920,
+      height: 1080,
+      quality: 75,
+      toWebp: true,
+    };
     this.outputPath = outputPath;
   }
 
@@ -25,17 +30,28 @@ class ImageResizePlugin {
           const processImageminForAssetFileAsyncs = assetFileNames.map(
             (assetFileName) => {
               if (GIF_POSTFIX.test(assetFileName)) {
+                const removedPostFixName = assetFileName
+                  .split(".")
+                  .slice(0, -1)
+                  .join(".");
+                const inputFilePath = `./${this.outputPath}/${assetFileName}`;
+                const outputFilePath = this.gifInfo.toWebp
+                  ? `./${this.outputPath}/${removedPostFixName}.wepb`
+                  : `./${this.outputPath}/${assetFileName}`;
+
                 console.warn("This Plugin is not support [gif] format.");
                 console.warn(`Please run this command`);
                 console.warn(
-                  `gifsicle --scale ${this.gifInfo.scale} -i  ./${this.outputPath}/${assetFileName} -o  ./${this.outputPath}/${assetFileName}`
+                  `gifsicle --scale ${this.gifInfo.scale} -i  ${inputFilePath} -o  ${outputFilePath}`
                 );
               } else if (IMAGES_POSTFIX.test(assetFileName)) {
                 const removedPostFixName = assetFileName
                   .split(".")
                   .slice(0, -1)
                   .join(".");
-                const convertedFileName = `${removedPostFixName}.webp`;
+                const convertedFileName = this.imgInfo.toWebp
+                  ? `${removedPostFixName}.webp`
+                  : assetFileName;
 
                 const assetFile = compilation.assets[assetFileName];
 
