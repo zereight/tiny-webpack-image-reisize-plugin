@@ -7,7 +7,7 @@ const GIF_POSTFIX = /\.(gif)/;
 
 class ImageResizePlugin {
   constructor({ outputPath = "dist", gifInfo, imgInfo }) {
-    this.gifInfo = gifInfo || { width: 1920, height: 1080 };
+    this.gifInfo = gifInfo || { scale: 1 };
     this.imgInfo = imgInfo || { width: 1920, height: 1080, quality: 75 };
     this.outputPath = outputPath;
   }
@@ -25,9 +25,10 @@ class ImageResizePlugin {
           const processImageminForAssetFileAsyncs = assetFileNames.map(
             (assetFileName) => {
               if (GIF_POSTFIX.test(assetFileName)) {
-                console.info("This Plugin is not support [gif] format.");
-                console.info(
-                  `Please run this command => gifsicle --resize ${this.gifInfo.width}x${this.gifInfo.height} ./${this.outputPath}/${assetFileName} -o ./${this.outputPath}/${assetFileName}`
+                console.warn("This Plugin is not support [gif] format.");
+                console.warn(`Please run this command`);
+                console.warn(
+                  `gifsicle --scale ${this.gifInfo.scale} -i  ./${this.outputPath}/${assetFileName} -o  ./${this.outputPath}/${assetFileName}`
                 );
               } else if (IMAGES_POSTFIX.test(assetFileName)) {
                 const removedPostFixName = assetFileName
